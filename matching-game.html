@@ -25,6 +25,13 @@
     <h1>Matching Game</h1>
     <p>Click on the extra smiling face on the left.</p>
 
+    <div class="difficulty">
+      <p>Choose difficulty!</p>
+      <button class="easy">Easy</button>
+      <button class="medium">Medium</button>
+      <button class="hard">Hard</button>
+    </div>
+
     <div id="leftSide"></div>
     <div id="rightSide"></div>
 
@@ -34,6 +41,12 @@
       let numberOfFaces = 5;
       let counter = 0;
       let isGameOver = false;
+      let isGameStarted = false;
+
+    //   if (!isGameStarted) {
+    //     theLeftSide.style.display = "none";
+    //     theRightSide.style.display = "none";
+    //   }
 
       function generateFaces() {
         for (let i = 0; i < numberOfFaces; i++) {
