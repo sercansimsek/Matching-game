@@ -33,6 +33,7 @@
       const theRightSide = document.querySelector("#rightSide");
       let numberOfFaces = 5;
       let counter = 0;
+      let isGameOver = false;
 
       function generateFaces() {
         for (let i = 0; i < numberOfFaces; i++) {
@@ -73,8 +74,44 @@
 
       function gameOver() {
         alert(`Game Over! You have made ${counter} attempts.`);
+        isGameOver = true;
         theLeftSide.lastChild.removeEventListener("click", nextLevel);
         document.body.removeEventListener("click", gameOver);
+
+        restartGame();
+      }
+
+      function restartGame() {
+        if (isGameOver) {
+          const btn = document.createElement("button");
+          btn.id = "restartBtn";
+          btn.style.position = "absolute";
+          btn.style.top = "0px";
+          btn.style.left = "0px";
+          btn.style.zIndex = "1000";
+          btn.style.cursor = "pointer";
+          btn.textContent = "Restart the game!";
+          document.body.appendChild(btn);
+
+          function resetGame(e) {
+            e.stopPropagation();
+
+            isGameOver = false;
+            numberOfFaces = 5;
+            counter = 0;
+
+            while (theLeftSide.firstChild) {
+              theLeftSide.removeChild(theLeftSide.firstChild);
+            }
+            while (theRightSide.firstChild) {
+              theRightSide.removeChild(theRightSide.firstChild);
+            }
+
+            btn.remove();
+            generateFaces();
+          }
+          btn.addEventListener("click", resetGame);
+        }
       }
 
       window.addEventListener("load", generateFaces);
