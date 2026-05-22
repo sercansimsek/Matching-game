@@ -32,6 +32,7 @@
       const theLeftSide = document.querySelector("#leftSide");
       const theRightSide = document.querySelector("#rightSide");
       let numberOfFaces = 5;
+      let counter = 0;
 
       function generateFaces() {
         for (let i = 0; i < numberOfFaces; i++) {
@@ -66,11 +67,12 @@
 
         event.stopPropagation();
         numberOfFaces += 5;
+        counter++;
         generateFaces();
       }
 
       function gameOver() {
-        alert("Game Over!");
+        alert(`Game Over! You have made ${counter} attempts.`);
         theLeftSide.lastChild.removeEventListener("click", nextLevel);
         document.body.removeEventListener("click", gameOver);
       }
