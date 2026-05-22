@@ -31,16 +31,14 @@
     <script>
       const theLeftSide = document.querySelector("#leftSide");
       const theRightSide = document.querySelector("#rightSide");
-
       let numberOfFaces = 5;
       let counter = 0;
-
       let isGameOver = false;
 
       function generateFaces() {
         for (let i = 0; i < numberOfFaces; i++) {
           let face = document.createElement("img");
-          face.src = "images/smile.png";
+          face.src = "/images/smile.png";
 
           let randomTop = Math.floor(Math.random() * 400) + 1;
           let randomLeft = Math.floor(Math.random() * 400) + 1;
@@ -68,10 +66,7 @@
           theRightSide.removeChild(theRightSide.firstChild);
         }
 
-        window.addEventListener("load", generateFaces);
-
         event.stopPropagation();
-
         numberOfFaces += 5;
         counter++;
         generateFaces();
@@ -102,7 +97,6 @@
             e.stopPropagation();
 
             isGameOver = false;
-
             numberOfFaces = 5;
             counter = 0;
 
@@ -119,6 +113,8 @@
           btn.addEventListener("click", resetGame);
         }
       }
+
+      window.addEventListener("load", generateFaces);
     </script>
   </body>
 </html>
