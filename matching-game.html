@@ -5,8 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Matching Game</title>
     <style>
+      body {
+        margin-top: 5rem;
+      }
       img {
         position: absolute;
+      }
+
+      .container {
+        width: 1000px;
+        border: 1px solid #333;
       }
 
       div {
@@ -19,21 +27,80 @@
         left: 500px;
         border-left: 1px solid;
       }
+
+      .difficultyBtns {
+        height: max-content;
+        position: absolute;
+        top: 0;
+      }
+
+      .easyBtn,
+      .normalBtn,
+      .hardBtn {
+        cursor: pointer;
+      }
     </style>
   </head>
   <body>
     <h1>Matching Game</h1>
     <p>Click on the extra smiling face on the left.</p>
 
-    <div id="leftSide"></div>
-    <div id="rightSide"></div>
+    <div class="difficultyBtns">
+      <p>Choose Difficulty Level</p>
+      <button class="easyBtn">Easy</button>
+      <button class="normalBtn">Normal</button>
+      <button class="hardBtn">Hard</button>
+    </div>
+
+    <div class="container">
+      <div id="leftSide"></div>
+      <div id="rightSide"></div>
+    </div>
 
     <script>
       const theLeftSide = document.querySelector("#leftSide");
       const theRightSide = document.querySelector("#rightSide");
+      const container = document.querySelector(".container");
+      const easyBtn = document.querySelector(".easyBtn");
+      const normalBtn = document.querySelector(".normalBtn");
+      const hardBtn = document.querySelector(".hardBtn");
+      const difficultyButtons = document.querySelector(".difficultyBtns");
       let numberOfFaces = 5;
+      let increaseNumberOfFacesBy = 5;
       let counter = 0;
       let isGameOver = false;
+      let isDifficultyChosen = false;
+
+      if (!isDifficultyChosen) {
+        container.style.display = "none";
+      }
+
+      easyBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        increaseNumberOfFacesBy = 2;
+        isDifficultyChosen = true;
+        difficultyButtons.style.display = "none";
+        document.body.style.marginTop = "0px";
+        container.style.display = "block";
+      });
+
+      normalBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        increaseNumberOfFacesBy = 5;
+        isDifficultyChosen = true;
+        difficultyButtons.style.display = "none";
+        document.body.style.marginTop = "0px";
+        container.style.display = "block";
+      });
+
+      hardBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        increaseNumberOfFacesBy = 8;
+        isDifficultyChosen = true;
+        difficultyButtons.style.display = "none";
+        document.body.style.marginTop = "0px";
+        container.style.display = "block";
+      });
 
       function generateFaces() {
         for (let i = 0; i < numberOfFaces; i++) {
@@ -54,7 +121,7 @@
         theRightSide.appendChild(leftSideImages);
 
         theLeftSide.lastChild.addEventListener("click", nextLevel);
-        document.body.addEventListener("click", gameOver);
+        container.addEventListener("click", gameOver);
       }
 
       function nextLevel(event) {
@@ -67,7 +134,9 @@
         }
 
         event.stopPropagation();
-        numberOfFaces += 5;
+        console.log(increaseNumberOfFacesBy);
+
+        numberOfFaces += increaseNumberOfFacesBy;
         counter++;
         generateFaces();
       }
@@ -76,7 +145,7 @@
         alert(`Game Over! You have made ${counter} attempts.`);
         isGameOver = true;
         theLeftSide.lastChild.removeEventListener("click", nextLevel);
-        document.body.removeEventListener("click", gameOver);
+        container.removeEventListener("click", gameOver);
 
         restartGame();
       }
@@ -86,12 +155,14 @@
           const btn = document.createElement("button");
           btn.id = "restartBtn";
           btn.style.position = "absolute";
-          btn.style.top = "0px";
-          btn.style.left = "0px";
+          btn.style.top = "25px";
+          btn.style.left = "50px";
+          btn.style.padding = "0.5em";
           btn.style.zIndex = "1000";
           btn.style.cursor = "pointer";
           btn.textContent = "Restart the game!";
           document.body.appendChild(btn);
+          document.body.style.marginTop = "5rem";
 
           function resetGame(e) {
             e.stopPropagation();
@@ -108,6 +179,10 @@
             }
 
             btn.remove();
+            document.body.style.marginTop = "5rem";
+            isDifficultyChosen = false;
+            difficultyButtons.style.display = "block";
+            container.style.display = "none";
             generateFaces();
           }
           btn.addEventListener("click", resetGame);
